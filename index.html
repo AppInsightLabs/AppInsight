@@ -139,7 +139,7 @@
 <div class="wrap hero">
   <div>
     <h1>Which apps used your <span class="mic">mic</span>, <span class="cam">camera</span>, and <span class="loc">location</span>. On the record.</h1>
-    <p class="sub">AppInsight keeps a timestamped record of every microphone, camera, and location access on your phone. Which app, when, and for how long, read straight from what Android reports.</p>
+    <p class="sub">Every time an app uses your mic, camera, or location, AppInsight records it. Which app, when, and for how long, laid out on a timeline you can scroll back through.</p>
     <div class="cta-row">
       <a class="btn" href="https://groups.google.com/g/appinsight-testers">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 1.8 13.8 12 3.6 22.2c-.4-.2-.6-.7-.6-1.2V3c0-.5.2-1 .6-1.2Zm1.7-.6 11 6.3-2.6 2.6L5.3 1.2Zm11 15.3-11 6.3 8.4-8.9 2.6 2.6Zm1.5-8.1 3.3 1.9c1 .6 1 2.1 0 2.6l-3.3 1.9-2.9-3.2 2.9-3.2Z"/></svg>
@@ -152,14 +152,13 @@
     <img src="timeline.webp" alt="The AppInsight timeline showing timestamped microphone and location events with the app named on each one" loading="eager">
   </figure>
 </div>
-</div>
 
 <div class="facts">
   <div class="wrap facts-grid">
-    <div class="fact"><div class="k">verified</div><div class="v"><strong>No internet permission.</strong> The app cannot send data anywhere. Check the manifest yourself.</div></div>
-    <div class="fact"><div class="k">verified</div><div class="v"><strong>No accounts, no sign up.</strong> Install and it works. Nothing identifies you.</div></div>
-    <div class="fact"><div class="k">verified</div><div class="v"><strong>No third party code.</strong> No analytics, no ads, no tracking libraries of any kind.</div></div>
-    <div class="fact"><div class="k">verified</div><div class="v"><strong>Everything stays on device.</strong> Records live in encrypted app-private storage and never leave.</div></div>
+    <div class="fact"><div class="k">verified</div><div class="v"><strong>Works completely offline.</strong> AppInsight never connects to the internet, so what happens on your phone stays on your phone.</div></div>
+    <div class="fact"><div class="k">verified</div><div class="v"><strong>Ready in seconds.</strong> No sign ups, no emails, no passwords. Download it, open it, and start monitoring.</div></div>
+    <div class="fact"><div class="k">verified</div><div class="v"><strong>Nothing hiding inside.</strong> A privacy app with trackers in it would be a joke. This one has none, and never will.</div></div>
+    <div class="fact"><div class="k">verified</div><div class="v"><strong>Your record, yours alone.</strong> Everything AppInsight sees stays encrypted on your phone. Nobody else can read it.</div></div>
   </div>
 </div>
 
@@ -179,25 +178,25 @@
 <section id="how">
   <div class="wrap">
     <div class="eyebrow">two ways to run it</div>
-    <h2>Honest by default. Precise with Shizuku.</h2>
-    <p class="lede">Install it and it starts working. Android reports the sensor access, AppInsight records it. Hook up Shizuku or root and it goes further, naming the exact app behind every event.</p>
+    <h2>Works out of the box. Sharper with Shizuku.</h2>
+    <p class="lede">Nothing to set up. Install it and every mic, camera, and location access starts landing on your timeline. When you want the full picture, a free tool called Shizuku unlocks the exact app behind every single event.</p>
     <div class="modes">
       <div class="mode">
         <h3><span class="dot dot-g"></span>Standard</h3>
         <div class="tag">no special access needed</div>
         <ul>
-          <li><strong>Every mic, camera, and location access</strong> Android reports, timestamped with duration</li>
-          <li>The app is named whenever Android states it directly</li>
-          <li>When Android does not name the app, the hardware use is still recorded, shown as Android Microphone, Android Camera, or Android Location</li>
+          <li><strong>Every access recorded</strong> the moment it happens, with how long it lasted</li>
+          <li>The app named whenever Android says who it was, which covers most everyday apps</li>
+          <li>System apps often keep their name hidden behind Android's own plumbing. When that happens, you still see the mic, camera, or location in use, just without a name attached.</li>
         </ul>
       </div>
       <div class="mode">
         <h3><span class="dot dot-b"></span>Privileged</h3>
         <div class="tag">with Shizuku or root</div>
         <ul>
-          <li><strong>The exact app named</strong> on mic and camera events, the moment Android reports them</li>
-          <li>Location requesters read from the system's own records</li>
-          <li>Hotword and voice assistant recognition events surfaced with model details</li>
+          <li><strong>Sees inside Android's plumbing</strong>, so every mic and camera event gets the exact app named, system apps included</li>
+          <li>Location requests tied to the app that made them</li>
+          <li>See when your voice assistant wakes up and starts listening</li>
         </ul>
       </div>
     </div>
@@ -222,7 +221,7 @@
     <div>
       <div class="eyebrow">what gets recorded</div>
       <h2>Who touched the sensor. Never what it captured.</h2>
-      <p class="lede">AppInsight records that an app used your location. It deliberately never stores where you were. No coordinates, no audio, no images, ever.</p>
+      <p class="lede">AppInsight records that an app used your location, never where you were. Same for the mic and camera: who used them and when, never what was said or seen.</p>
     </div>
     <div class="mono-block" aria-label="What is and is not stored">
       <span class="y">stored</span>&nbsp;&nbsp; app name, sensor, time, duration<br>
@@ -245,15 +244,15 @@
       </div>
       <div>
         <h3>Do I need root?</h3>
-        <p>No. It works out of the box. Shizuku (no root required) or root unlocks exact app naming on every event, and is recommended for the full experience.</p>
+        <p>No. It works out of the box. If you want every event named, system apps included, Shizuku gets you there without root.</p>
       </div>
       <div>
         <h3>What is Shizuku?</h3>
-        <p>An open source tool that lets apps use system-level reporting through a one-time wireless debugging setup. No root, no computer needed after setup. AppInsight guides you through it.</p>
+        <p>A free, open source tool that lets apps like AppInsight see deeper into Android. You set it up once, no root and no computer needed, and AppInsight walks you through every step.</p>
       </div>
       <div>
         <h3>Why should I trust this?</h3>
-        <p>Don't trust it, check it. The app requests no internet permission, so the operating system itself blocks it from transmitting anything.</p>
+        <p>Don't trust it, check it. AppInsight ships without internet permission, which means Android will not let it send anything anywhere. That is not a promise we're making, it is how the app is built.</p>
       </div>
     </div>
   </div>
