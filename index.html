@@ -33,7 +33,14 @@
   "screenshot": [
    "https://appinsightlabs.github.io/AppInsight/timeline.webp",
    "https://appinsightlabs.github.io/AppInsight/dashboard.webp",
-   "https://appinsightlabs.github.io/AppInsight/quiet.webp"
+   "https://appinsightlabs.github.io/AppInsight/hero_location.webp",
+   "https://appinsightlabs.github.io/AppInsight/hero_camera.webp",
+   "https://appinsightlabs.github.io/AppInsight/insights_quiet.webp",
+   "https://appinsightlabs.github.io/AppInsight/insights_heatmap.webp",
+   "https://appinsightlabs.github.io/AppInsight/insights_square.webp",
+   "https://appinsightlabs.github.io/AppInsight/insights_app.webp",
+   "https://appinsightlabs.github.io/AppInsight/deepdive_asi.webp",
+   "https://appinsightlabs.github.io/AppInsight/deepdive_google.webp"
   ],
   "publisher": {
    "@type": "Organization",
@@ -97,6 +104,7 @@
     --blue:#3A86F5;
     --blue-deep:#2B6FEA;
     --green:#4CAF50;
+    --amber:#F9B44E;
     --mono:'JetBrains Mono',ui-monospace,monospace;
     --sans:'IBM Plex Sans',system-ui,sans-serif;
     --disp:'Space Grotesk',var(--sans);
@@ -111,7 +119,7 @@
 
   /* ── Header ── */
   header{border-bottom:1px solid var(--outline)}
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding-block:20px}
   .wordmark .name{font-family:var(--disp);font-weight:700;font-size:20px;letter-spacing:.01em;color:var(--text)}
   .wordmark .insight{position:relative;display:inline-block}
   .wordmark .insight::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--mic) 0 12%,var(--cam) 50%,var(--loc) 88% 100%)}
@@ -120,7 +128,7 @@
   .nav-links a:hover{color:var(--text);text-decoration:none}
 
   /* ── Hero ── */
-  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding:72px 0 64px}
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding-block:72px 64px}
   .hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.2vw,44px);line-height:1.12;letter-spacing:-.015em}
   .hero h1 .mic{color:var(--mic)} .hero h1 .cam{color:var(--cam)} .hero h1 .loc{color:var(--loc)}
   .hero .sub{margin-top:18px;color:var(--text-2);font-size:17px;max-width:46ch}
@@ -161,6 +169,59 @@
   .mode li{font-size:14.5px;color:var(--text-2);padding-left:18px;position:relative}
   .mode li::before{content:'';position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:2px;background:var(--outline)}
   .mode li strong{color:var(--text);font-weight:600}
+  .mode-rec{display:flex;flex-direction:column;border-color:rgba(58,134,245,.45);box-shadow:0 0 0 1px rgba(58,134,245,.10),0 18px 50px rgba(43,111,234,.12)}
+  .mode-rec ul{margin-bottom:22px}
+  .rec{margin-left:auto;font-family:var(--sans);font-size:12px;font-weight:600;line-height:1;color:var(--blue);background:rgba(58,134,245,.12);border:1px solid rgba(58,134,245,.35);border-radius:999px;padding:5px 10px}
+  .mode-get{margin-top:auto;padding-top:16px;border-top:1px solid var(--outline);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;font-size:14px;color:var(--text-2)}
+  .mode-get a{font-weight:600;color:var(--blue);white-space:nowrap}
+
+  /* ── Stacked carousel ── */
+  .deck{--w:300px;--ar:.66;position:relative}
+  .deck-stage{position:relative;height:calc(var(--w) / var(--ar));touch-action:pan-y}
+  .deck-card{position:absolute;top:0;left:50%;width:var(--w);aspect-ratio:var(--ar);margin-left:calc(var(--w) / -2);
+    padding:0;border:1px solid var(--outline);border-radius:20px;overflow:hidden;background:var(--surface);cursor:pointer;
+    transform-origin:center 60%;
+    transition:transform .75s cubic-bezier(.22,.8,.24,1),filter .75s ease,box-shadow .75s ease,opacity .5s ease}
+  .deck-card img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;pointer-events:none}
+  .deck-card::after{content:'';position:absolute;inset:auto 0 0 0;height:70px;background:linear-gradient(transparent,rgba(14,20,27,.85));pointer-events:none}
+  .deck-card[data-slot="front"]{transform:translateX(0) scale(1);z-index:3;box-shadow:0 34px 80px rgba(0,0,0,.65),0 10px 24px rgba(0,0,0,.45)}
+  .deck-card[data-slot="right"]{transform:translateX(var(--peek,30%)) scale(.84);z-index:2;filter:brightness(.5) saturate(.85);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  .deck-card[data-slot="left"]{transform:translateX(calc(var(--peek,30%) * -1)) scale(.84);z-index:2;filter:brightness(.5) saturate(.85);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  .deck-card[data-slot="hidden"]{transform:scale(.72);z-index:0;opacity:0;pointer-events:none}
+  .deck-card.passing{z-index:1}
+  .deck-card:is([data-slot="left"],[data-slot="right"]):hover{filter:brightness(.68) saturate(.9)}
+  .deck-foot{margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+  .deck-cap{min-height:3.2em;max-width:34ch;font-size:15px;color:var(--text-2);text-wrap:balance}
+  .deck-cap strong{color:var(--text);font-weight:600}
+  .deck-dots{display:flex;gap:10px}
+  .deck-dots button{width:8px;height:8px;border-radius:4px;border:0;padding:0;background:var(--outline);cursor:pointer;transition:width .35s ease,background .35s ease}
+  .deck-dots button[aria-current="true"]{width:24px;background:var(--text-2)}
+  #dashboard .shot{max-height:none}
+  #dashboard .shot::after{display:none}
+  .deck-insights{--w:clamp(260px,31vw,380px);--ar:.609;--peek:24%}
+  .deck-insights .deck-card{background:#0C141B}
+  .deck-card img.fit-top{position:absolute;top:0;left:0;height:auto;-webkit-mask-image:linear-gradient(to bottom,#000 88%,transparent);mask-image:linear-gradient(to bottom,#000 88%,transparent)}
+  .deck-hero{--w:clamp(260px,31vw,380px);--ar:.70}
+
+  /* ── Deep dive ── */
+  .deep{background:var(--surface-2);border-top:1px solid var(--outline);border-bottom:1px solid var(--outline)}
+  .deep-inner{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .stack{display:grid;grid-template-columns:repeat(12,1fr)}
+  .stack .shot{grid-row:1;align-self:start;border:none;border-radius:18px;box-shadow:0 28px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05)}
+  .stack .shot::after{content:'';position:absolute;left:0;right:0;bottom:0;height:50px;background:linear-gradient(transparent,var(--surface-2));pointer-events:none}
+  .stack .back{grid-column:1/9}
+  .stack .front{grid-column:5/13;margin-top:24%;z-index:1}
+  .tally{margin-top:28px;font-family:var(--mono);font-size:13.5px;line-height:2.1;color:var(--text-2);background:var(--bg);border:1px solid var(--outline);border-radius:12px;padding:16px 22px}
+  .tally .label{display:block;font-size:11px;letter-spacing:.08em;margin-bottom:4px;opacity:.8}
+  .tally .n{display:inline-block;min-width:4.5ch;color:var(--amber);font-weight:600}
+  .cap{margin-top:26px;display:flex;gap:12px;align-items:flex-start}
+  .cap .dot{margin-top:8px}
+  .cap strong{display:block;font-family:var(--disp);font-size:15px;font-weight:600;color:var(--text)}
+  .cap span:not(.dot){display:block;font-size:14px;line-height:1.5;color:var(--text-2);margin-top:2px;text-wrap:pretty}
+  .dot-mic{background:var(--mic)}
+  #insights h2,#deep-dive h2{text-wrap:balance}
+
+  @media (prefers-reduced-motion:reduce){ .deck-card,.deck-dots button{transition:none} }
 
   .dash-inner{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
   .insights-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
@@ -178,14 +239,42 @@
   footer{border-top:1px solid var(--outline);padding:36px 0 48px;font-size:13.5px;color:var(--text-2)}
   .foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
   .foot-links{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+  .foot-text,.foot-badges{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+  .foot-badges{gap:14px}
 
   @media (max-width:880px){
-    .hero{grid-template-columns:1fr;gap:44px;padding:52px 0 48px}
+    .hero{grid-template-columns:1fr;gap:44px;padding-block:52px 48px}
     .facts-grid{grid-template-columns:1fr 1fr}
     .fact{border-left:none;border-top:1px solid var(--outline)}
     .fact:nth-child(-n+2){border-top:none}
-    .modes,.quiet-inner,.faq,.insights-inner,.dash-inner{grid-template-columns:1fr}
+    .modes,.quiet-inner,.faq,.insights-inner,.dash-inner,.deep-inner{grid-template-columns:1fr}
+    .deck,.deck-hero,.deck-insights{--w:min(380px,calc(100vw - 48px))}
+    .hero,#insights{overflow-x:clip}
     .nav-links{display:none}
+    section{padding:56px 0}
+    /* hero: one centered column so text, badge, and carousel line up */
+    .hero > div:first-child{text-align:center}
+    .hero h1{text-wrap:balance}
+    .hero .sub{margin-inline:auto;text-wrap:pretty}
+    .cta-row{justify-content:center}
+    /* text leads, screenshots follow at a sensible size */
+    .dash-inner > div,.deep-inner > div:not(.stack){order:-1}
+    .dash-inner .shot{width:100%;max-width:380px;margin-inline:auto}
+    .deep-inner .stack{width:100%;max-width:570px;margin-inline:auto}
+    /* section openers centered to match the hero; cards, lists, and answers stay left */
+    section .eyebrow,section h2,section .lede{text-align:center;margin-inline:auto}
+    section .lede{text-wrap:pretty}
+    /* footer: centered, text links on one line, badges together on the next */
+    .foot{flex-direction:column;align-items:center;gap:20px;text-align:center}
+    .foot-links{flex-direction:column;align-items:center;gap:18px}
+    .foot-text,.foot-badges{justify-content:center}
+  }
+  @media (max-width:560px){
+    .facts-grid{grid-template-columns:1fr}
+    .fact{padding:22px 4px}
+    .fact:nth-child(2){border-top:1px solid var(--outline)}
+    .faq{gap:32px}
+    .quiet .mono-block{font-size:11.5px;padding:16px}
   }
 </style>
 </head>
@@ -216,9 +305,17 @@
     </div>
   </div>
 
-  <figure class="shot shot-hero">
-    <img src="timeline.webp" alt="The AppInsight timeline showing timestamped microphone and location events with the app named on each one" loading="eager">
-  </figure>
+  <div class="deck deck-hero" aria-roledescription="carousel" aria-label="AppInsight timeline screens">
+    <div class="deck-stage">
+      <button class="deck-card" type="button" data-cap="&lt;strong&gt;The timeline.&lt;/strong&gt; Every mic, camera, and location event, in order."><img src="timeline.webp" width="860" height="1190" alt="The AppInsight timeline with location and microphone events, each naming the app" loading="eager"></button>
+      <button class="deck-card" type="button" data-cap="&lt;strong&gt;Tap any event.&lt;/strong&gt; Screen off, phone locked, and it&#39;s still on the record."><img src="hero_location.webp" width="444" height="644" alt="An expanded location event from Android System Intelligence, recorded with the screen off and the phone locked" loading="eager"></button>
+      <button class="deck-card" type="button" data-cap="&lt;strong&gt;Down to the lens.&lt;/strong&gt; Every camera that opened, with focal length and aperture."><img src="hero_camera.webp" width="444" height="637" alt="An expanded camera event listing each lens that opened, with focal length and aperture" loading="eager"></button>
+    </div>
+    <div class="deck-foot">
+      <p class="deck-cap" aria-live="off"></p>
+      <div class="deck-dots" role="group" aria-label="Choose a screen"></div>
+    </div>
+  </div>
 </div>
 
 <div class="facts">
@@ -258,14 +355,15 @@
           <li>System apps often keep their name hidden behind Android's own plumbing. When that happens, you still see the mic, camera, or location in use, just without a name attached.</li>
         </ul>
       </div>
-      <div class="mode">
-        <h3><span class="dot dot-b"></span>Privileged</h3>
+      <div class="mode mode-rec">
+        <h3><span class="dot dot-b"></span>Privileged <span class="rec">Recommended</span></h3>
         <div class="tag">with Shizuku or root</div>
         <ul>
           <li><strong>Sees inside Android's plumbing</strong>, so every mic and camera event gets the exact app named, system apps included</li>
           <li>Location requests tied to the app that made them</li>
           <li>See when your voice assistant wakes up and starts listening</li>
         </ul>
+        <div class="mode-get"><span>Shizuku is free, open source, and works without root.</span><a href="https://shizuku.rikka.app/" target="_blank" rel="noopener">Learn about Shizuku &rarr;</a></div>
       </div>
     </div>
   </div>
@@ -276,11 +374,41 @@
     <div>
       <div class="eyebrow">insights</div>
       <h2>See what runs while you're asleep.</h2>
-      <p class="lede">The timeline is the raw record. Insights rolls it up: overnight sensor sessions counted per app, background versus foreground use, and weekly heatmaps of when each sensor fires.</p>
+      <p class="lede">The timeline is the raw record. Insights turns it into patterns, and every pattern opens up. Tap a square on the heatmap for the apps behind it, then tap an app for its whole week.</p>
     </div>
-    <figure class="shot shot-fade shot-insights">
-      <img src="quiet.webp" alt="The Insights screen showing 55 overnight sensor sessions broken down by app and sensor" loading="lazy">
-    </figure>
+  <div class="deck deck-insights" aria-roledescription="carousel" aria-label="AppInsight insights screens">
+    <div class="deck-stage">
+      <button class="deck-card" type="button" data-cap="&lt;strong&gt;While you were asleep.&lt;/strong&gt; Every overnight sensor session, counted and broken down by app."><img class="fit-top" src="insights_quiet.webp" width="720" height="1182" alt="Quiet hours: 55 sensor sessions while you were asleep, split between location and microphone" loading="lazy"></button>
+      <button class="deck-card" type="button" data-cap="&lt;strong&gt;The week at a glance.&lt;/strong&gt; Seven days of mic, camera, and location use. Brighter means busier."><img class="fit-top" src="insights_heatmap.webp" width="720" height="1182" alt="The sensor heatmap: a week of microphone and camera activity, brighter squares for busier times" loading="lazy"></button>
+      <button class="deck-card" type="button" data-cap="&lt;strong&gt;Tap any square.&lt;/strong&gt; Every app behind it, with sessions, time used, and background use."><img src="insights_square.webp" width="720" height="1415" alt="One heatmap square opened, listing Google, Claude, and Blink with sessions, duration, and background use" loading="lazy"></button>
+      <button class="deck-card" type="button" data-cap="&lt;strong&gt;Tap any app.&lt;/strong&gt; Its whole week, including how much ran while your phone was locked."><img src="insights_app.webp" width="720" height="1417" alt="Google's microphone week: 278 sessions, 57 percent while locked, 72 percent in the background" loading="lazy"></button>
+    </div>
+    <div class="deck-foot">
+      <p class="deck-cap" aria-live="off"></p>
+      <div class="deck-dots" role="group" aria-label="Choose a screen"></div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section id="deep-dive" class="deep">
+  <div class="wrap deep-inner">
+    <div class="stack">
+      <figure class="shot back"><img src="deepdive_asi.webp" width="720" height="1412" alt="Android System Intelligence location activity with a session expanded, showing screen state, lock state, process state, and running services" loading="lazy"></figure>
+      <figure class="shot front"><img src="deepdive_google.webp" width="720" height="1415" alt="Google microphone activity with a session expanded, recorded with the screen off and the phone locked, showing a hotword audio source and the sound model in use" loading="lazy"></figure>
+    </div>
+    <div>
+      <div class="eyebrow">deep dive</div>
+      <h2>Every app, down to the session.</h2>
+      <p class="lede">Insights gives you the numbers. Tap any app and you get the sessions behind them, each one with the screen state, the lock state, and what was running at the time.</p>
+      <div class="tally" aria-label="One week of Google microphone activity on our own test phone">
+        <span class="label">one week on our own test phone</span>
+        <span class="n">278</span>mic sessions from Google<br>
+        <span class="n">160</span>while the phone was locked<br>
+        <span class="n">201</span>in the background
+      </div>
+      <div class="cap"><span class="dot dot-mic"></span><div><strong>Voice assistant wake ups</strong><span>Each one on the record, with the sound model it used.</span></div></div>
+    </div>
   </div>
 </section>
 
@@ -330,13 +458,102 @@
   <div class="wrap foot">
     <span>AppInsight Labs</span>
     <div class="foot-links">
+      <div class="foot-text">
       <a href="privacy.html">Privacy policy</a>
       <a href="https://github.com/AppInsightLabs">GitHub</a>
+      </div>
+      <div class="foot-badges">
       <a href="https://alternativeto.net/software/appinsight/about/?utm_source=badge&utm_medium=referral" target="_blank" rel="noopener"><img src="AlternativeTo-badge-wide-dark.svg" alt="AppInsight on AlternativeTo" height="36" style="display:block"></a>
       <a href="https://play.google.com/store/apps/details?id=com.appinsight.android"><img src="GetItOnGooglePlay_Badge_Web_color_English.svg" alt="Get it on Google Play" height="36" style="display:block"></a>
+      </div>
     </div>
   </div>
 </footer>
 
+<script>
+document.querySelectorAll('.deck').forEach(function (deck) {
+  var cards = Array.prototype.slice.call(deck.querySelectorAll('.deck-card'));
+  var cap = deck.querySelector('.deck-cap');
+  var dotsEl = deck.querySelector('.deck-dots');
+  var n = cards.length;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var INTERVAL = 4500;
+  var front = 0, timer = null, visible = false, hovering = false, swiped = false;
+
+  function slotFor(k) {
+    var pos = (k - front + n) % n;
+    if (pos === 0) return 'front';
+    if (pos === 1) return 'right';
+    if (pos === n - 1) return 'left';
+    return 'hidden';
+  }
+
+  var dots = cards.map(function (c, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Show screen ' + (i + 1) + ' of ' + n);
+    b.addEventListener('click', function () { userMove(function () { show(i); }); });
+    dotsEl.appendChild(b);
+    return b;
+  });
+
+  function show(i) {
+    var before = cards.map(function (c) { return c.dataset.slot; });
+    front = (i + n) % n;
+    cards.forEach(function (c, k) {
+      var slot = slotFor(k);
+      // a card swinging from one side to the other travels behind the front card
+      c.classList.toggle('passing', !!(before[k] && before[k] !== 'front' && slot !== 'front' && before[k] !== slot));
+      c.dataset.slot = slot;
+      c.tabIndex = slot === 'front' ? 0 : -1;
+      c.setAttribute('aria-hidden', slot === 'front' ? 'false' : 'true');
+    });
+    dots.forEach(function (d, k) { d.setAttribute('aria-current', k === front ? 'true' : 'false'); });
+    cap.innerHTML = cards[front].dataset.cap;
+  }
+
+  function stop() { clearInterval(timer); timer = null; }
+  function start() {
+    if (reduce || timer || !visible || hovering || document.hidden) return;
+    timer = setInterval(function () { show(front + 1); }, INTERVAL);
+  }
+  function userMove(fn) { cap.setAttribute('aria-live', 'polite'); fn(); stop(); start(); }
+
+  cards.forEach(function (c, k) {
+    c.addEventListener('click', function () {
+      if (swiped) { swiped = false; return; }
+      userMove(function () { show(k === front ? front + 1 : k); });
+    });
+  });
+
+  var x0 = null;
+  deck.addEventListener('pointerdown', function (e) { x0 = e.clientX; });
+  deck.addEventListener('pointerup', function (e) {
+    if (x0 === null) return;
+    var dx = e.clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) { swiped = true; userMove(function () { show(front + (dx < 0 ? 1 : -1)); }); }
+  });
+  deck.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') userMove(function () { show(front + 1); });
+    if (e.key === 'ArrowLeft') userMove(function () { show(front - 1); });
+  });
+  deck.addEventListener('mouseenter', function () { hovering = true; stop(); });
+  deck.addEventListener('mouseleave', function () { hovering = false; start(); });
+  deck.addEventListener('focusin', function () { hovering = true; stop(); });
+  deck.addEventListener('focusout', function () { hovering = false; start(); });
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+
+  // Only rotate while the carousel is on screen
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      visible ? start() : stop();
+    }, { threshold: 0.4 }).observe(deck);
+  } else { visible = true; }
+
+  show(0);
+  start();
+});
+</script>
 </body>
 </html>
