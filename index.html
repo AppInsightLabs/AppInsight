@@ -12,6 +12,8 @@
 <meta property="og:image" content="https://appinsightlabs.github.io/AppInsight/social_card.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://appinsightlabs.github.io/AppInsight/">
+<link rel="icon" type="image/png" sizes="192x192" href="app_icon.png">
+<link rel="apple-touch-icon" href="app_icon.png">
 <meta name="theme-color" content="#0E141B">
 <meta property="og:site_name" content="AppInsight">
 <meta name="twitter:title" content="AppInsight: See Which Android Apps Use Your Mic, Camera, and Location">
@@ -123,6 +125,8 @@
   /* ── Header ── */
   header{border-bottom:1px solid var(--outline)}
   .nav{display:flex;align-items:center;justify-content:space-between;padding-block:1.25rem}
+  .wordmark{display:flex;align-items:center;gap:0.75rem}
+  .wordmark .mark{width:2.5rem;height:2.5rem;flex-shrink:0;display:block}
   .wordmark .name{font-family:var(--disp);font-weight:700;font-size:1.25rem;letter-spacing:.01em;color:var(--text)}
   .wordmark .insight{position:relative;display:inline-block}
   .wordmark .insight::after{content:'';position:absolute;left:0;right:0;bottom:-0.375rem;height:0.1875rem;border-radius:2px;background:linear-gradient(90deg,var(--mic) 0 12%,var(--cam) 50%,var(--loc) 88% 100%)}
@@ -281,8 +285,20 @@
     .fact{padding:1.375rem 0.25rem}
     .fact:nth-child(2){border-top:1px solid var(--outline)}
     .faq{gap:2rem}
+    .wordmark{gap:0.5625rem}
+    .wordmark .mark{width:2rem;height:2rem}
+    .nav{flex-wrap:wrap;row-gap:0.625rem}
+    .nav-links{margin-left:auto}
+    .nav-links a{white-space:nowrap}
     .nav-links{display:grid;grid-template-columns:auto auto;justify-items:end;gap:0.375rem 1rem}
     .quiet .mono-block{font-size:0.71875rem;padding:1rem}
+  }
+  @media (max-width:400px){
+    .nav{column-gap:0.625rem}
+    .wordmark{gap:0.5rem}
+    .wordmark .mark{width:1.75rem;height:1.75rem}
+    .wordmark .name{font-size:1.125rem}
+    .nav-links{font-size:0.78125rem;column-gap:0.75rem}
   }
   .cta-row img{height:3.5rem;width:auto}
   .foot-badges img{height:2.25rem;width:auto}
@@ -293,6 +309,7 @@
 <header>
   <div class="wrap nav">
     <div class="wordmark">
+      <img class="mark" src="app_icon.png" width="40" height="40" alt="">
       <span class="name">App<span class="insight">Insight</span></span>
     </div>
     <nav class="nav-links">
